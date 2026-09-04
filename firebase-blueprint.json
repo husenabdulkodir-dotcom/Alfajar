@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "santri": {
+      "title": "Santri",
+      "description": "Data santri pesantren",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nis": { "type": "string" },
+        "nisn": { "type": "string" },
+        "name": { "type": "string" },
+        "class": { "type": "string" },
+        "parentName": { "type": "string" },
+        "parentPhone": { "type": "string" },
+        "accessPin": { "type": "string" },
+        "manualStatus": { "type": "string" },
+        "organizationRole": { "type": "string", "description": "Jabatan OSIS (Ketua OSIS, Qism Ibadah, Amni, Lughoh, Nadzofah, dll) atau Ketua Kelas" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "class", "parentName", "accessPin"]
+    },
+    "pointRecords": {
+      "title": "Point Records",
+      "description": "Catatan pelanggaran dan kebaikan santri",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "santriId": { "type": "string" },
+        "ruleId": { "type": "string" },
+        "type": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "points": { "type": "number" },
+        "notes": { "type": "string" },
+        "recordedBy": { "type": "string" },
+        "academicYear": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "santriId", "type", "title", "points", "academicYear", "date"]
+    },
+    "rules": {
+      "title": "Rules",
+      "description": "Katalog tata tertib dan poin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "category": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "points": { "type": "number" }
+      },
+      "required": ["id", "code", "category", "type", "title", "points"]
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Pengaturan global seperti tahun ajaran aktif",
+      "type": "object",
+      "properties": {
+        "academicYear": { "type": "string" }
+      }
+    }
+  }
+}

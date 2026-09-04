@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    color-scheme: light;
+  }
+}
+
+/* Custom scrollbars for Clean Light theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    color-scheme: light !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Universal Hide for interactive UI in print */
+  button, 
+  nav,
+  header,
+  .no-print,
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Ensure printed tables and text retain contrast */
+  .print\:bg-white {
+    background-color: #FFFFFF !important;
+  }
+
+  .print\:text-black {
+    color: #000000 !important;
+  }
+
+  .print\:border-black {
+    border-color: #94A3B8 !important;
+  }
+
+  /* Page break rules for clean reports */
+  .page-break-before {
+    page-break-before: always;
+  }
+  .page-break-after {
+    page-break-after: always;
+  }
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+  
+  /* Reset container widths for full page print */
+  .container, 
+  .max-w-7xl,
+  .max-w-6xl,
+  .max-w-3xl {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Ensure all borders are crisp */
+  * {
+    border-color: #CBD5E1 !important;
+  }
+}

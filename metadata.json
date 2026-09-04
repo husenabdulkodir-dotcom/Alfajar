@@ -1,0 +1,6 @@
+{
+  "name": "Al Fajar Islamic School",
+  "description": "Sistem kedisiplinan dan bimbingan konseling Al Fajar Islamic School, pencatatan poin pelanggaran & apresiasi kebaikan, serta portal pemantauan siswa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
