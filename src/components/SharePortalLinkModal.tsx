@@ -41,8 +41,6 @@ export const SharePortalLinkModal: React.FC<SharePortalLinkModalProps> = ({
   academicYear,
   onBatchUpdateSantri
 }) => {
-  if (!isOpen) return null;
-
   const [activeTab, setActiveTab] = useState<'wali-kelas' | 'broadcast' | 'print-slip'>('wali-kelas');
   const [selectedClassFilter, setSelectedClassFilter] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -264,6 +262,8 @@ export const SharePortalLinkModal: React.FC<SharePortalLinkModalProps> = ({
     const classPrefix = selectedClassFilter === 'ALL' ? 'Semua_Kelas' : `Kelas_${selectedClassFilter}`;
     exportToCSV(`Rekap_Kode_Akses_Portal_${classPrefix}_${academicYear.replace('/', '-')}`, rows);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn print:p-0 print:bg-white print:static">

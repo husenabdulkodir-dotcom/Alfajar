@@ -21,8 +21,6 @@ export const QuickPointInputModal: React.FC<QuickPointInputModalProps> = ({
   academicYear,
   onSaveRecords
 }) => {
-  if (!isOpen) return null;
-
   const [selectedSantriIds, setSelectedSantriIds] = useState<string[]>([]);
   const [santriSearch, setSantriSearch] = useState('');
   
@@ -37,6 +35,8 @@ export const QuickPointInputModal: React.FC<QuickPointInputModalProps> = ({
   const [recordedBy, setRecordedBy] = useState('Ust. Ahmad (Kesiswaan)');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [semester, setSemester] = useState<'Ganjil' | 'Genap'>('Ganjil');
+
+  if (!isOpen) return null;
 
   // Filter rules based on entryType
   const filteredRules = rules.filter(r => r.type === entryType);

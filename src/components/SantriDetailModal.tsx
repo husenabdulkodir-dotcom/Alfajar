@@ -75,8 +75,6 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
   onDeleteRecord,
   onOpenAuditModal
 }) => {
-  if (!santri) return null;
-
   const [activeSubTab, setActiveSubTab] = useState<'points' | 'bk' | 'ekskul'>('points');
   const [filterType, setFilterType] = useState<'ALL' | 'Pelanggaran' | 'Kebaikan' | 'Berat'>('ALL');
   const [copiedPin, setCopiedPin] = useState(false);
@@ -84,6 +82,7 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
   const [recordToDelete, setRecordToDelete] = useState<PointRecord | null>(null);
 
   const getPortalUrlForSantri = () => {
+    if (!santri) return '';
     const base = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : '';
     const pin = santri.accessPin || '1234';
     const nisParam = santri.nis ? `&nis=${encodeURIComponent(santri.nis.trim())}` : '';
@@ -91,6 +90,7 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
   };
 
   const handleCopyAccessCredentials = () => {
+    if (!santri) return;
     const portalUrl = getPortalUrlForSantri();
     const base = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : '';
     const roleText = santri.organizationRole ? `\n• *Amanah/Jabatan Santri:* ${santri.organizationRole}` : '';
@@ -101,6 +101,7 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
   };
 
   const handleShareWhatsApp = () => {
+    if (!santri) return;
     const portalUrl = getPortalUrlForSantri();
     const base = typeof window !== 'undefined' ? `${window.location.origin}${window.location.pathname}` : '';
     const roleText = santri.organizationRole ? `\n• *Amanah/Jabatan Santri:* ${santri.organizationRole}` : '';
@@ -113,6 +114,15 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
 
   // Calculations (Memoized for high performance)
   const { totalPlus, totalMinus, netPoints, heavyViolationsAllTime, status } = useMemo(() => {
+    if (!santri) {
+      return {
+        totalPlus: 0,
+        totalMinus: 0,
+        netPoints: 0,
+        heavyViolationsAllTime: [] as PointRecord[],
+        status: 'Aman' as const
+      };
+    }
     let plus = 0;
     let minus = 0;
     const heavy: PointRecord[] = [];
@@ -141,24 +151,27 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
       heavyViolationsAllTime: heavy,
       status: st
     };
-  }, [santri.id, santri.manualStatus, records, academicYear]);
+  }, [santri?.id, santri?.manualStatus, records, academicYear]);
 
   const badgeStyle = getStatusBadgeStyle(status);
 
   // Student specific records (Memoized)
   const santriRecords = useMemo(() => {
+    if (!santri) return [];
     return records
       .filter(r => r.santriId === santri.id)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, [records, santri.id]);
+  }, [records, santri?.id]);
 
   const santriBKNotes = useMemo(() => {
+    if (!santri) return [];
     return bkNotes
       .filter(n => n.santriId === santri.id)
       .sort((a, b) => new Date(b.sessionDate).getTime() - new Date(a.sessionDate).getTime());
-  }, [bkNotes, santri.id]);
+  }, [bkNotes, santri?.id]);
 
   const santriEkskulList = useMemo(() => {
+    if (!santri) return [];
     return ekskulRecords.filter(e => isSantriEkskulMatch(e, santri));
   }, [ekskulRecords, santri]);
 
@@ -200,6 +213,8 @@ export const SantriDetailModal: React.FC<SantriDetailModalProps> = ({
     setCopiedSnippetId(id);
     setTimeout(() => setCopiedSnippetId(null), 2000);
   };
+
+  if (!santri) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto print:p-0 print:bg-white print:static">

@@ -50,8 +50,6 @@ export const BulkNISNManagerModal: React.FC<BulkNISNManagerModalProps> = ({
   santriList,
   onSaveBatch
 }) => {
-  if (!isOpen) return null;
-
   // Local editable copy of santri list
   const [localList, setLocalList] = useState<Santri[]>(() => {
     return santriList.map(s => ({ ...s }));
@@ -736,6 +734,8 @@ export const BulkNISNManagerModal: React.FC<BulkNISNManagerModalProps> = ({
       setIsSaving(false);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md overflow-hidden">

@@ -42,8 +42,6 @@ export const SantriAuditHistoryModal: React.FC<SantriAuditHistoryModalProps> = (
   const [fieldFilter, setFieldFilter] = useState<string>('ALL');
   const [selectedSantriId, setSelectedSantriId] = useState<string>(preSelectedSantriId || 'ALL');
 
-  if (!isOpen) return null;
-
   // Filtered audit logs
   const filteredLogs = useMemo(() => {
     return auditLogs.filter(log => {
@@ -138,6 +136,8 @@ export const SantriAuditHistoryModal: React.FC<SantriAuditHistoryModalProps> = (
     link.click();
     document.body.removeChild(link);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">

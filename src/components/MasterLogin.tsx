@@ -18,13 +18,32 @@ export const MasterLogin: React.FC<MasterLoginProps> = ({ onLoginSuccess }) => {
   const MASTER_PASS = '121299';
 
   useEffect(() => {
-    // Check if WebAuthn (biometrics) is supported and available
-    if (window.PublicKeyCredential) {
-      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
-        .then((available) => {
-          setIsBiometricAvailable(available);
-        })
-        .catch(() => setIsBiometricAvailable(false));
+    // Check if WebAuthn (biometrics) is supported, allowed by policy, and available
+    try {
+      if (typeof document !== 'undefined' && 'permissionsPolicy' in document) {
+        const pp = (document as any).permissionsPolicy;
+        if (pp && typeof pp.allowsFeature === 'function' && !pp.allowsFeature('publickey-credentials-create')) {
+          setIsBiometricAvailable(false);
+          return;
+        }
+      }
+      if (typeof document !== 'undefined' && 'featurePolicy' in document) {
+        const fp = (document as any).featurePolicy;
+        if (fp && typeof fp.allowsFeature === 'function' && !fp.allowsFeature('publickey-credentials-create')) {
+          setIsBiometricAvailable(false);
+          return;
+        }
+      }
+
+      if (window.PublicKeyCredential && navigator.credentials) {
+        PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+          .then((available) => {
+            setIsBiometricAvailable(available);
+          })
+          .catch(() => setIsBiometricAvailable(false));
+      }
+    } catch {
+      setIsBiometricAvailable(false);
     }
   }, []);
 
@@ -102,11 +121,13 @@ export const MasterLogin: React.FC<MasterLoginProps> = ({ onLoginSuccess }) => {
           onLoginSuccess();
         }
       } catch (err: any) {
-        console.error(err);
-        if (err.name === 'NotAllowedError') {
+        console.warn('WebAuthn creation error:', err);
+        if (err.name === 'SecurityError' || (err.message && err.message.includes('publickey-credentials'))) {
+          setError('Autentikasi biometrik tidak diizinkan di frame ini. Silakan gunakan login ID & Password.');
+        } else if (err.name === 'NotAllowedError') {
           setError('Akses sidik jari dibatalkan atau tidak diizinkan.');
         } else {
-          setError('Gagal mendaftarkan sidik jari. Perangkat mungkin tidak mendukung.');
+          setError('Gagal mendaftarkan sidik jari. Silakan gunakan login ID & Password.');
         }
       } finally {
         setIsRegisteringBiometric(false);
@@ -136,11 +157,13 @@ export const MasterLogin: React.FC<MasterLoginProps> = ({ onLoginSuccess }) => {
           onLoginSuccess();
         }
       } catch (err: any) {
-        console.error(err);
-        if (err.name === 'NotAllowedError') {
+        console.warn('WebAuthn verification error:', err);
+        if (err.name === 'SecurityError' || (err.message && err.message.includes('publickey-credentials'))) {
+          setError('Autentikasi biometrik tidak diizinkan di frame ini. Silakan gunakan login ID & Password.');
+        } else if (err.name === 'NotAllowedError') {
           setError('Autentikasi sidik jari dibatalkan.');
         } else {
-          setError('Gagal memverifikasi sidik jari.');
+          setError('Gagal memverifikasi sidik jari. Silakan gunakan login ID & Password.');
         }
       }
     }

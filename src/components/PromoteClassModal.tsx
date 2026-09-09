@@ -15,8 +15,6 @@ export const PromoteClassModal: React.FC<PromoteClassModalProps> = ({
   santriList,
   onPromoteSantriClasses
 }) => {
-  if (!isOpen) return null;
-
   const [mode, setMode] = useState<'auto' | 'custom'>('auto');
 
   // Custom promotion form states
@@ -32,6 +30,8 @@ export const PromoteClassModal: React.FC<PromoteClassModalProps> = ({
   React.useEffect(() => {
     setSelectedSantriIds(santriInSourceClass.map(s => s.id));
   }, [selectedSourceClass, santriList]);
+
+  if (!isOpen) return null;
 
   // Helper function to auto promote a class string (e.g., "7 A" -> "8 A", "8 B" -> "9 B", "9" -> "10")
   const autoIncrementClass = (currentClass: string): string => {

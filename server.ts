@@ -15,6 +15,7 @@ async function startServer() {
   const serverStartTime = Date.now();
 
   app.use((req, res, next) => {
+    res.setHeader('Permissions-Policy', 'publickey-credentials-create=*, publickey-credentials-get=*');
     totalApiRequests++;
     const originalSend = res.send;
     res.send = function (body: any) {

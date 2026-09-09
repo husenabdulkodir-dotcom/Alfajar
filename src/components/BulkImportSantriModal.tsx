@@ -19,8 +19,6 @@ export const BulkImportSantriModal: React.FC<BulkImportSantriModalProps> = ({
   academicYear,
   onImportSantri
 }) => {
-  if (!isOpen) return null;
-
   const [selectedClass, setSelectedClass] = useState('7 A');
   const [customClassInput, setCustomClassInput] = useState('');
   const [useCustomClass, setUseCustomClass] = useState(false);
@@ -30,6 +28,8 @@ export const BulkImportSantriModal: React.FC<BulkImportSantriModalProps> = ({
   const [parsedData, setParsedData] = useState<Partial<Santri>[]>([]);
   const [hasParsed, setHasParsed] = useState(false);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+
+  if (!isOpen) return null;
 
   const activeTargetClass = useCustomClass && customClassInput.trim() ? customClassInput.trim() : selectedClass;
 

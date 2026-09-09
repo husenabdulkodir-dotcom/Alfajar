@@ -20,11 +20,11 @@ export const YearResetModal: React.FC<YearResetModalProps> = ({
   records,
   onExecuteReset
 }) => {
-  if (!isOpen) return null;
-
   const [nextYearInput, setNextYearInput] = useState('2027/2028');
   const [confirmText, setConfirmText] = useState('');
   const [resetSuccess, setResetSuccess] = useState(false);
+
+  if (!isOpen) return null;
 
   // Count total heavy violations preserved
   const totalHeavyPreserved = records.filter(r => r.type === 'Pelanggaran' && (r.category === 'Berat' || r.isHeavyViolation)).length;

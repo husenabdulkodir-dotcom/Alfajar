@@ -43,8 +43,6 @@ export const EkskulPaymentConfirmModal: React.FC<EkskulPaymentConfirmModalProps>
   onSubmitClaim,
   coordinatorPhone = '6281234567890' // Default contact or from parent / config
 }) => {
-  if (!isOpen) return null;
-
   const defaultEkskul = initialEkskul || ekskulList[0] || null;
   const [selectedEkskulId, setSelectedEkskulId] = useState<string>(defaultEkskul?.id || '');
   
@@ -64,6 +62,8 @@ export const EkskulPaymentConfirmModal: React.FC<EkskulPaymentConfirmModalProps>
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  if (!isOpen) return null;
 
   // Selected month label
   const selectedMonthObj = ACADEMIC_MONTHS.find(m => m.key === monthKey);

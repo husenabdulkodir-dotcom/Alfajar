@@ -15,8 +15,6 @@ export const DeleteGraduatedModal: React.FC<DeleteGraduatedModalProps> = ({
   santriList,
   onDeleteMultipleSantri
 }) => {
-  if (!isOpen) return null;
-
   // Selected class filter for target alumni / graduates
   const uniqueClasses = useMemo(() => {
     return Array.from(new Set(santriList.map(s => s.class))).sort();
@@ -114,6 +112,8 @@ export const DeleteGraduatedModal: React.FC<DeleteGraduatedModalProps> = ({
       onClose();
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">

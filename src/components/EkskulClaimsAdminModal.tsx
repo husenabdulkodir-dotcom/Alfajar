@@ -40,13 +40,13 @@ export const EkskulClaimsAdminModal: React.FC<EkskulClaimsAdminModalProps> = ({
   onUpdateClaimStatus,
   onDeleteClaim
 }) => {
-  if (!isOpen) return null;
-
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'PENDING' | 'VERIFIED' | 'REJECTED'>('PENDING');
   const [selectedProofImage, setSelectedProofImage] = useState<string | null>(null);
   const [rejectingClaimId, setRejectingClaimId] = useState<string | null>(null);
   const [rejectionReasonInput, setRejectionReasonInput] = useState('');
+
+  if (!isOpen) return null;
 
   // Filtering claims
   const filteredClaims = claims.filter(c => {

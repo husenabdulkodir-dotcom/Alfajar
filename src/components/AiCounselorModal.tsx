@@ -18,18 +18,17 @@ export const AiCounselorModal: React.FC<AiCounselorModalProps> = ({
   records,
   academicYear
 }) => {
-  if (!isOpen || !santri) return null;
-
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [copied, setCopied] = useState(false);
 
-  const netPoints = calculateNetPoints(santri.id, records, academicYear);
-  const heavyViolations = getHeavyViolations(santri.id, records);
-  const santriRecords = records.filter(r => r.santriId === santri.id);
+  const netPoints = santri ? calculateNetPoints(santri.id, records, academicYear) : 0;
+  const heavyViolations = santri ? getHeavyViolations(santri.id, records) : [];
+  const santriRecords = santri ? records.filter(r => r.santriId === santri.id) : [];
 
   const handleGenerateAdvice = async () => {
+    if (!santri) return;
     setLoading(true);
     setError('');
     setResult('');
@@ -71,6 +70,8 @@ export const AiCounselorModal: React.FC<AiCounselorModalProps> = ({
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (!isOpen || !santri) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
