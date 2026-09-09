@@ -866,11 +866,16 @@ export default function App() {
                 santriList={santriList}
                 records={records}
                 academicYear={academicYear}
+                auditLogs={auditLogs}
                 onSelectSantri={s => setSelectedSantriDetail(s)}
                 onOpenQuickInput={() => setIsQuickInputOpen(true)}
                 onNavigateToSantri={() => setActiveTab('santri')}
                 onNavigateToRecaps={() => setActiveTab('recaps')}
                 onNavigateToActivity={() => setActiveTab('activity')}
+                onOpenAuditModal={santriId => {
+                  setAuditPreSelectedSantriId(santriId);
+                  setIsAuditModalOpen(true);
+                }}
               />
             )}
 

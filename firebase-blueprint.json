@@ -59,6 +59,24 @@
       "properties": {
         "academicYear": { "type": "string" }
       }
+    },
+    "auditLogs": {
+      "title": "Audit Logs",
+      "description": "Riwayat audit perubahan data santri untuk pelacakan",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "santriId": { "type": "string" },
+        "santriName": { "type": "string" },
+        "actionType": { "type": "string" },
+        "fieldName": { "type": "string" },
+        "oldValue": { "type": "string" },
+        "newValue": { "type": "string" },
+        "performedBy": { "type": "string" },
+        "details": { "type": "string" }
+      },
+      "required": ["id", "timestamp", "santriId", "santriName", "actionType", "performedBy"]
     }
   }
 }

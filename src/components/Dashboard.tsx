@@ -1,29 +1,34 @@
 import React, { useMemo } from 'react';
-import { Santri, PointRecord } from '../types';
+import { Santri, PointRecord, AuditLog } from '../types';
 import { calculateNetPoints, getHeavyViolations, determineSantriStatus, getStatusBadgeStyle, formatDateIndonesian } from '../utils/helpers';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import { Users, AlertTriangle, Award, TrendingUp, AlertCircle, Clock, ShieldAlert, ArrowUpRight, ArrowDownRight, UserCheck } from 'lucide-react';
+import { AuditLogsDashboardTable } from './AuditLogsDashboardTable';
 
 interface DashboardProps {
   santriList: Santri[];
   records: PointRecord[];
   academicYear: string;
+  auditLogs?: AuditLog[];
   onSelectSantri: (santri: Santri) => void;
   onOpenQuickInput: () => void;
   onNavigateToSantri: () => void;
   onNavigateToRecaps: () => void;
   onNavigateToActivity?: () => void;
+  onOpenAuditModal?: (santriId?: string) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
   santriList,
   records,
   academicYear,
+  auditLogs = [],
   onSelectSantri,
   onOpenQuickInput,
   onNavigateToSantri,
   onNavigateToRecaps,
-  onNavigateToActivity
+  onNavigateToActivity,
+  onOpenAuditModal
 }) => {
   // Current month calculation
   const currentMonth = useMemo(() => {
@@ -523,6 +528,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
           })}
         </div>
       </div>
+
+      {/* Audit Logs Table for Investigating Data Changes */}
+      <AuditLogsDashboardTable
+        auditLogs={auditLogs}
+        santriList={santriList}
+        onSelectSantri={onSelectSantri}
+        onOpenFullAuditModal={onOpenAuditModal}
+      />
     </div>
   );
 };
